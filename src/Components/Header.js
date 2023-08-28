@@ -9,6 +9,10 @@ const Header = ({ currPage }) => {
     navigate(path);
   };
 
+  const logout = () => {
+    localStorage.removeItem("userinfo");
+  };
+
   return (
     <div className="py-6 flex justify-between">
       <h1 onClick={() => pushToPage("/")} className="text-2xl font-semibold">
@@ -35,6 +39,9 @@ const Header = ({ currPage }) => {
           className="ml-5 hover:underline"
         >
           Page 3
+        </button>
+        <button onClick={() => logout()} className="ml-5 btn btn-primary">
+          Logout
         </button>
       </div>
     </div>

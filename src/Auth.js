@@ -20,12 +20,21 @@ const Auth = () => {
       .then((resp) => {
         console.log(resp.data);
         setLoginError("");
+
+        localStorage.setItem(
+          "userinfo",
+          JSON.stringify({
+            userId: resp.data.user._id,
+            email: resp.data.user.email,
+          })
+        );
       })
       .catch((err) => {
         setLoginError("something went wrong. please try again later");
         console.error("login error: ", err);
       });
   };
+
   const signup = () => {
     if (!email || !password) return;
     if (password !== confirmPassword) setSignupError("passwords dont match");
@@ -102,10 +111,19 @@ const Auth = () => {
             placeholder="Password"
           />
           {loginError && (
-            <p className="w-[60%] text-sm py-2 text-error">{loginError}</p>
+            <p
+              className={`w-[60%] text-sm py-2 ${
+                loginError === "loading..." ? "text-info" : "text-error"
+              }`}
+            >
+              {loginError}
+            </p>
           )}
           <button
-            onClick={() => login()}
+            onClick={() => {
+              login();
+              setLoginError("loading...");
+            }}
             className="btn btn-md btn-primary mt-5 w-[60%]"
           >
             Login
